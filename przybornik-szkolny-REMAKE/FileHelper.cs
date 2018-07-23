@@ -12,7 +12,6 @@ namespace przybornik_szkolny_REMAKE
         {
             DirectoryInfo dir = new DirectoryInfo(dirPath);
             if (!dir.Exists) dir.Create();
-            ///asd
         }
     }
 }

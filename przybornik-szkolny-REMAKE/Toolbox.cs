@@ -25,7 +25,7 @@ namespace przybornik_szkolny_REMAKE
             Console.WriteLine("");
             Console.Write("Wybór: ");
         }
-
+        
         public void TemporaryUnavaible()
         {
             Console.Clear();

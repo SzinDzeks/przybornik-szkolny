@@ -127,7 +127,7 @@ namespace przybornik_szkolny_REMAKE
                     default:
                         goto step4;
                 }
-
+                
             }
             return true;
         }
