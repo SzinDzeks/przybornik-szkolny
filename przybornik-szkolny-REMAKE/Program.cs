@@ -21,7 +21,7 @@ namespace przybornik_szkolny_REMAKE
             while(running)
             {
                 program.toolbox.DrawMenu();
-                running = program.toolbox.HandleMenuInput();
+                running = program.HandleMenuInput();
             }
         }
 
@@ -34,6 +34,37 @@ namespace przybornik_szkolny_REMAKE
             if (!student.Prepare()) return false;
             toolbox = new Toolbox(student);
 
+            return true;
+        }
+
+        bool HandleMenuInput()
+        {
+            char input = Console.ReadKey().KeyChar;
+            switch (input)
+            {
+                case '1':
+                    toolbox.TemporaryUnavaible();
+                    //toolbox.DisplayGrades();
+                    break;
+                case '2':
+                    toolbox.TemporaryUnavaible();
+                    //toolbox.DrawAddGradeMenu();
+                    break;
+                case '3':
+                    toolbox.TemporaryUnavaible();
+                    //toolbox.DrawRemoveGradeMenu();
+                    break;
+                case '4':
+                    toolbox.TemporaryUnavaible();
+                    //student.MakeBackup();
+                    break;
+                case '5':
+                    toolbox.TemporaryUnavaible();
+                    break;
+                case '6':
+                    Environment.Exit(0);
+                    break;
+            }
             return true;
         }
     }

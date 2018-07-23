@@ -47,10 +47,5 @@ namespace przybornik_szkolny_REMAKE
 
             return true;
         }
-
-        public Dictionary<string, List<string>> GetGradesDictionary()
-        {
-            return grades;
-        }
     }
 }
