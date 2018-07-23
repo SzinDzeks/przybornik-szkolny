@@ -12,7 +12,7 @@ namespace przybornik_szkolny_REMAKE
         enum gradesType{ withPlusAndMinus, withoutPlusAndMinus };
         gradesType gradingType;
         bool isPlusAndMinusWorth;
-
+        
         public bool Prepare()
         {
             //Obsługa uzupełniania listy przedmiotów

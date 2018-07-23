@@ -14,7 +14,7 @@ namespace przybornik_szkolny_REMAKE
             string studentName = Console.ReadLine();
             return studentName;
         }
-
+        
         public string GetStudentSurname()
         {
             Console.Write("Podaj swoje nazwisko: ");
