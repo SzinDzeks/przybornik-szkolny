@@ -9,12 +9,20 @@ namespace przybornik_szkolny_REMAKE
     class Data
     {
         public List<string> subjects = new List<string>();
-        enum GradesType{ WithPlusAndMinus, WithoutPlusAndMinus };
-        GradesType gradingType;
-        bool isPlusAndMinusWorth;
-        
-        public bool Prepare()
+        public enum GradesType{ WithPlusAndMinus, WithoutPlusAndMinus };
+        public GradesType gradingType
         {
+            get => gradingType;
+            private set => gradingType = value;
+        }
+
+        public bool isPlusAndMinusWorth
+        {
+            get => isPlusAndMinusWorth;
+            private set => isPlusAndMinusWorth = value;
+        }
+        
+        public bool Prepare(){
             //Obsługa uzupełniania listy przedmiotów
             bool running = true;
             while(running)
@@ -28,10 +36,7 @@ namespace przybornik_szkolny_REMAKE
 
                 int i = 1;
                 foreach (string nameOfSubject in subjects)
-                {
-                    Console.WriteLine(i + ". " + nameOfSubject);
-                    i++;
-                }
+                    Console.WriteLine(i++ + ". " + nameOfSubject);
 
                 Console.Write("\n> ");
                 string input = Console.ReadLine();
@@ -102,6 +107,7 @@ namespace przybornik_szkolny_REMAKE
                         break;
                     default:
                         goto step3;
+                        break;
                 }
             }
             {

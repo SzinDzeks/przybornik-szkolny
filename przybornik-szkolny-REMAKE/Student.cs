@@ -11,7 +11,10 @@ namespace przybornik_szkolny_REMAKE
         string name, surname;
         string filePath;
         Dictionary<string, List<string>> grades = new Dictionary<string, List<string>>();
-        Data data;
+        public Data data{
+            get => data;
+            private set => data = value;
+        }
         StudentHelper studentHelper;
 
         public bool Prepare()
@@ -48,9 +51,8 @@ namespace przybornik_szkolny_REMAKE
             return true;
         }
 
-        public Dictionary<string, List<string>> GetGradesDictionary()
-        {
-            return grades;
-        }
+        public Dictionary<string, List<string>> GetGradesDictionary() => grades;
+
+        public void AddGrade(string subject, string fullGrade) => grades[subject].Add(fullGrade);
     }
 }
