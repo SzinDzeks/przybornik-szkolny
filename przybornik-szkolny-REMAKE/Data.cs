@@ -9,8 +9,8 @@ namespace przybornik_szkolny_REMAKE
     class Data
     {
         public List<string> subjects = new List<string>();
-        enum gradesType{ withPlusAndMinus, withoutPlusAndMinus };
-        gradesType gradingType;
+        enum GradesType{ WithPlusAndMinus, WithoutPlusAndMinus };
+        GradesType gradingType;
         bool isPlusAndMinusWorth;
         
         public bool Prepare()
@@ -95,10 +95,10 @@ namespace przybornik_szkolny_REMAKE
                 switch (input)
                 {
                     case '1':
-                        gradingType = gradesType.withoutPlusAndMinus;
+                        gradingType = GradesType.WithoutPlusAndMinus;
                         break;
                     case '2':
-                        gradingType = gradesType.withPlusAndMinus;
+                        gradingType = GradesType.WithPlusAndMinus;
                         break;
                     default:
                         goto step3;

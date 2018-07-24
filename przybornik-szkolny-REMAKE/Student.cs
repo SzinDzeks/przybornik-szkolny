@@ -33,7 +33,7 @@ namespace przybornik_szkolny_REMAKE
             //Przygotowywanie listy ocen do zapisu
             for (int i = 0; i < data.subjects.Count; i++)
                 grades.Add(data.subjects[i], new List<string>());
-            
+
             //Generowanie ścieżki zapisu plików     //TODO: Sprawdzić, czy jest jakieś lepsze rozwiązanie
             filePath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles) + "\\School Tool";
             FileHelper.CreateDirectoryIfNotExists(filePath);
@@ -46,6 +46,11 @@ namespace przybornik_szkolny_REMAKE
             if (!fi.Exists) fi.Create();
 
             return true;
+        }
+
+        public Dictionary<string, List<string>> GetGradesDictionary()
+        {
+            return grades;
         }
     }
 }
