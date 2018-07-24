@@ -12,7 +12,8 @@ namespace przybornik_szkolny_REMAKE
         string filePath;
         Dictionary<string, List<string>> grades = new Dictionary<string, List<string>>();
         public Data data{
-            get; private set;
+            get => data;
+            private set => data = value;
         }
         StudentHelper studentHelper;
 
