@@ -9,133 +9,51 @@ namespace przybornik_szkolny_REMAKE
     class Data
     {
         public List<string> subjects = new List<string>();
-        public enum GradesType{ WithPlusAndMinus, WithoutPlusAndMinus };
-        public GradesType gradingType
+        public static List<string> gradesWithPlusAndMinus = new List<string>()
+        { "1", "1+", "2-", "2", "2+", "3-", "3","3+","4-","4","4+","5-","5","5+","6-","6" };
+
+        public static List<string> stepTwoMenu { get; private set; } = new List<string>()
         {
-            get => gradingType;
-            private set => gradingType = value;
-        }
-
-        public bool isPlusAndMinusWorth
+            "Krok 2: Sporządzenie listy przedmitotów. ",
+            "Wypisz wszystkie swoje przedmioty szkolne, zatwierdzając każdy Enter'em.",
+            "Aby usunąć ostatnio dodany przedmiot wpisz COFNIJ i zatwierdź Enter'em",
+            "Gdy skończysz napisz KONIEC i zatwierdź Enter'em.",
+            ""
+        };
+        public static List<string> stepThreeMenu { get; private set; } = new List<string>()
         {
-            get => isPlusAndMinusWorth;
-            private set => isPlusAndMinusWorth = value;
-        }
-        
-        public bool Prepare(){
-            //Obsługa uzupełniania listy przedmiotów
-            bool running = true;
-            while(running)
-            {
-                Console.Clear();
-                Console.WriteLine("Krok 2: Sporządzenie listy przedmitotów. ");
-                Console.WriteLine("Wypisz wszystkie swoje przedmioty szkolne, zatwierdzając każdy Enter'em.");
-                Console.WriteLine("Aby usunąć ostatnio dodany przedmiot wpisz COFNIJ i zatwierdź Enter'em");
-                Console.WriteLine("Gdy skończysz napisz KONIEC i zatwierdź Enter'em.");
-                Console.WriteLine();
+            "Krok 3: Wybranie typu ocen",
+            "",
+            "W niektórych placówkach oceny są zapisywane tylko całościowo,",
+            "w innych są zapisywane z plusami i minusami.",
+            "Powiedz nam jak jest u ciebie.",
+            "Wybierz jedną z opcji:",
+            "",
+            "1. Oceny tylko całościowe",
+            "2. Oceny całościowe oraz z plusami i minusami",
+            "",
+            "Wybór: "
+        };
+        public static List<string> stepFourMenu { get; private set; } = new List<string>()
+        {
+            "Krok 4: Czy plusy i minusy są brane pod uwagę przy obliczaniu średnich?",
+            "Wybierz jedną z opcji:",
+            "",
+            "1. Tak",
+            "2. Nie",
+            "",
+            "Wybór: "
+        };
 
-                int i = 1;
-                foreach (string nameOfSubject in subjects)
-                    Console.WriteLine(i++ + ". " + nameOfSubject);
+        public enum GradesType { WithPlusAndMinus, WithoutPlusAndMinus };
+        public GradesType gradingType;
+        public bool isPlusAndMinusWorth;
 
-                Console.Write("\n> ");
-                string input = Console.ReadLine();
-                switch (input)
-                {
-                    case "COFNIJ":
-                        if(subjects.Count > 0)
-                        {
-                            string nazwaPrzedmiotu = subjects.Last();
-                            subjects.Remove(nazwaPrzedmiotu);
-                            i--;
-                            Console.WriteLine("Pomyślnie usunięto przedmiot o nazwie: " + nazwaPrzedmiotu);
-                            Console.ReadKey();
-                        } else {
-                            Console.WriteLine("Jeszcze nie dodałeś żadnego przedmiotu!");
-                            Console.ReadKey();
-                        }
-                        break;
-                    case "KONIEC":
-                        running = false;
-                        Console.Write("Zakończono dodawanie przedmiotów! Naciśnij dowolny klawisz...");
-                        Console.ReadKey();
-                        break;
-                    default:
-                        if (input == "") break;
-
-                        string nameOfSubject = "";
-                        foreach(string subject in subjects)
-                        {
-                            if(input.Equals(subject))
-                            {
-                                nameOfSubject = subject;
-                                Console.WriteLine("Już dodałeś ten przedmiot! (" + nameOfSubject + ")");
-                                Console.ReadKey();
-                                break;
-                            }
-                        }
-                        if (input.Equals(nameOfSubject)) break;
-
-                        subjects.Add(input);
-                        i++;
-                        break;
-                }
-            }
-            {
-                step3:
-                Console.Clear();
-                Console.WriteLine("Krok 3: Wybranie typu ocen");
-                Console.WriteLine("");
-                Console.WriteLine("W niektórych placówkach oceny są zapisywane tylko całościowo,");
-                Console.WriteLine("w innych są zapisywane z plusami i minusami.");
-                Console.WriteLine("Powiedz nam jak jest u ciebie.");
-                Console.WriteLine("Wybierz jedną z opcji:");
-                Console.WriteLine("");
-                Console.WriteLine("1. Oceny tylko całościowe");
-                Console.WriteLine("2. Oceny całościowe oraz z plusami i minusami");
-                Console.WriteLine("");
-                Console.Write("Wybór: ");
-                char input = Console.ReadKey().KeyChar;
-
-                switch (input)
-                {
-                    case '1':
-                        gradingType = GradesType.WithoutPlusAndMinus;
-                        break;
-                    case '2':
-                        gradingType = GradesType.WithPlusAndMinus;
-                        break;
-                    default:
-                        goto step3;
-                        break;
-                }
-            }
-            {
-                step4:
-                Console.Clear();
-                Console.WriteLine("Krok 4: Czy plusy i minusy są brane pod uwagę przy obliczaniu średnich?");
-                Console.WriteLine("Wybierz jedną z opcji:");
-                Console.WriteLine("");
-                Console.WriteLine("1. Tak");
-                Console.WriteLine("2. Nie");
-                Console.WriteLine("");
-                Console.Write("Wybór: ");
-                char input = Console.ReadKey().KeyChar;
-
-                switch (input)
-                {
-                    case '1':
-                        isPlusAndMinusWorth = true;
-                        break;
-                    case '2':
-                        isPlusAndMinusWorth = false;
-                        break;
-                    default:
-                        goto step4;
-                }
-                
-            }
-            return true;
+        public Data()
+        {
+            ConfigHandler.RunStepTwoOfConfig();
+            ConfigHandler.RunStepThreeOfConfig();
+            ConfigHandler.RunStepFourOfConfig();
         }
     }
 }

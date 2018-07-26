@@ -12,12 +12,11 @@ namespace przybornik_szkolny_REMAKE
         string filePath;
         Dictionary<string, List<string>> grades = new Dictionary<string, List<string>>();
         public Data data{
-            get => data;
-            private set => data = value;
+            get; private set;
         }
         StudentHelper studentHelper;
 
-        public bool Prepare()
+        public Student()
         {
             Console.Clear();
             Console.WriteLine("Krok 1: Przedstaw się.");
@@ -31,7 +30,6 @@ namespace przybornik_szkolny_REMAKE
 
             //Tworzenie listy przedmiotów
             data = new Data();
-            if (!data.Prepare()) return false;
 
             //Przygotowywanie listy ocen do zapisu
             for (int i = 0; i < data.subjects.Count; i++)
@@ -47,8 +45,6 @@ namespace przybornik_szkolny_REMAKE
             filePath += "\\" + name + "_" + surname;
             FileInfo fi = new FileInfo(filePath);
             if (!fi.Exists) fi.Create();
-
-            return true;
         }
 
         public Dictionary<string, List<string>> GetGradesDictionary() => grades;

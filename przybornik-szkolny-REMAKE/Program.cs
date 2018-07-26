@@ -11,30 +11,47 @@ namespace przybornik_szkolny_REMAKE
     {
         Student student;
         Toolbox toolbox;
+        Menu menu;
+        public ConfigHandler confighandler
+        {
+            get; private set;
+        }
+
         static void Main(string[] args)
         {
-            //Tworzenie egzemplarza programu i rozpoczęcie konfiguracji
             Program program = new Program();
-            if (!program.Prepare()) return;
 
             bool running = true;
             while(running)
             {
-                program.toolbox.DrawMenu();
+                program.menu.Draw();
                 running = program.toolbox.HandleMenuInput();
             }
         }
 
-        bool Prepare()
+        Program()
         {
             Console.Write("Wstępna konfiguracja programu. Wciśnij dowolny klawisz...");
             Console.ReadKey();
 
             student = new Student();
-            if (!student.Prepare()) return false;
             toolbox = new Toolbox(student);
+            confighandler = new ConfigHandler(student);
+            menu = new Menu(ConstructMenu());
+        }
 
-            return true;
+        List<string> ConstructMenu()
+        { 
+            return new List<string> {
+                "School tool- menu",
+                "",
+                "1. Wyświetl oceny",
+                "2. Dodaj ocenę",
+                "3. Popraw ocenę",
+                "4. Ustawienia",
+                "5. Wyjście z programu",
+                ""
+            };
         }
     }
 }
