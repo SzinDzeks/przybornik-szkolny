@@ -8,10 +8,8 @@ namespace przybornik_szkolny_REMAKE
 {
     class Data
     {
-        public List<string> subjects = new List<string>();
         public static List<string> gradesWithPlusAndMinus = new List<string>()
         { "1", "1+", "2-", "2", "2+", "3-", "3","3+","4-","4","4+","5-","5","5+","6-","6" };
-
         public static List<string> stepTwoMenu { get; private set; } = new List<string>()
         {
             "Krok 2: Sporządzenie listy przedmitotów. ",
@@ -44,16 +42,5 @@ namespace przybornik_szkolny_REMAKE
             "",
             "Wybór: "
         };
-
-        public enum GradesType { WithPlusAndMinus, WithoutPlusAndMinus };
-        public GradesType gradingType;
-        public bool isPlusAndMinusWorth;
-
-        public Data()
-        {
-            ConfigHandler.RunStepTwoOfConfig();
-            ConfigHandler.RunStepThreeOfConfig();
-            ConfigHandler.RunStepFourOfConfig();
-        }
     }
 }

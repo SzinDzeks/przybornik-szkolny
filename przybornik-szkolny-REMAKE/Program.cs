@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Configuration;
 
 namespace przybornik_szkolny_REMAKE
 {
@@ -12,14 +11,15 @@ namespace przybornik_szkolny_REMAKE
         Student student;
         Toolbox toolbox;
         Menu menu;
-        public ConfigHandler confighandler
+        public string Directory
         {
-            get; private set;
+            get; private set;    
         }
 
         static void Main(string[] args)
         {
             Program program = new Program();
+            program.Directory = Environment.SpecialFolder.ApplicationData.ToString();
 
             bool running = true;
             while(running)
@@ -36,7 +36,6 @@ namespace przybornik_szkolny_REMAKE
 
             student = new Student();
             toolbox = new Toolbox(student);
-            confighandler = new ConfigHandler(student);
             menu = new Menu(ConstructMenu());
         }
 
@@ -48,8 +47,9 @@ namespace przybornik_szkolny_REMAKE
                 "1. Wyświetl oceny",
                 "2. Dodaj ocenę",
                 "3. Popraw ocenę",
-                "4. Ustawienia",
-                "5. Wyjście z programu",
+                "4. Usuń ocenę",
+                "5. Ustawienia",
+                "6. Wyjście z programu",
                 ""
             };
         }

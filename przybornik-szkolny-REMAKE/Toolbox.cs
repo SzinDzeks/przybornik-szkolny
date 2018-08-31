@@ -9,21 +9,20 @@ namespace przybornik_szkolny_REMAKE
     class Toolbox
     {
         Student student;
-        List<string> addGradeMenu = new List<string>();
+        string featuresOfCorrectGrade;
 
         public Toolbox(Student student)
         {
             this.student = student;
-            ConstructAddGradeMenu();
+            ConstructFeaturesOfCorrectGradeInfo();
         }
         
-        void ConstructAddGradeMenu()
+        void ConstructFeaturesOfCorrectGradeInfo()
         {
-            if (student.data.gradingType == Data.GradesType.WithPlusAndMinus)
-                addGradeMenu.Add("Prawidłowa ocena to liczba od 1 do 6 zawierająca po swojej prawej stronie plus bądź minus (np. 5+ lub 4-).\n");
-            else if (student.data.gradingType == Data.GradesType.WithoutPlusAndMinus)
-                addGradeMenu.Add("Prawidłowa ocena to liczba od 1 do 6.");
-            addGradeMenu.Add("Wpisz ocenę, którą dostałeś: ");
+            if (student.gradeHasPlusAndMinus == true)
+                featuresOfCorrectGrade = "Prawidłowa ocena to liczba od 1 do 6 opcjonalnie zawierająca po swojej prawej stronie plus bądź minus (np. 5+ lub 4-).\n";
+            else if (student.gradeHasPlusAndMinus == false)
+                featuresOfCorrectGrade = "Prawidłowa ocena to liczba od 1 do 6.";
         }
 
         public void TemporaryUnavaible(){
@@ -44,14 +43,16 @@ namespace przybornik_szkolny_REMAKE
                     HandleGradeAdding();
                     break;
                 case '3':
-                    TemporaryUnavaible();
-                    //DrawRemoveGradeMenu();
+                    HandleGradeChanging();
                     break;
                 case '4':
-                    TemporaryUnavaible();
-                    //student.MakeBackup();
+                    HandleGradeDeleting();
                     break;
                 case '5':
+                    TemporaryUnavaible();
+                    //student.DrawSettingsMenu();
+                    break;
+                case '6':
                     Environment.Exit(0);
                     break;
             }
@@ -61,18 +62,39 @@ namespace przybornik_szkolny_REMAKE
         public void DisplayGrades()
         {
             Console.Clear();
-            foreach(KeyValuePair<string, List<string>> phrase in student.GetGradesDictionary())
-            {
-                Console.WriteLine(phrase.Key + ": ");
 
-                foreach (string grade in phrase.Value)
+            float overallAverage = 0;
+            int i = 0;
+
+            foreach (KeyValuePair<string, List<string>> keyValuePair in student.GetGradesDictionary())
+            {
+                float subjectAverage = 0;
+                int j = 0;
+
+                Console.Write(keyValuePair.Key + ": ");
+                foreach (string grade in keyValuePair.Value)
+                {
+                    subjectAverage += ConvertGradeToFloat(grade);
+                    j++;
+
                     Console.Write(grade + ", ");
+                }
+                subjectAverage /= j;
+                if (subjectAverage > 0) Console.Write("Średnia: " + subjectAverage + "\n");
+                else Console.Write("    Średnia: Brak\n");
+
+                if (subjectAverage > 0)
+                {
+                    overallAverage += subjectAverage;
+                    i++;
+                }
             }
 
-            Console.WriteLine("\nŚrednia: Funkcja tymczasowo niedostępna");
+            overallAverage /= i;
+
+            Console.WriteLine("\nŚrednia: " + overallAverage);
             Console.ReadKey();
         }
-
         public void HandleGradeAdding()
         {
             Console.Clear();
@@ -81,8 +103,8 @@ namespace przybornik_szkolny_REMAKE
             string subject = Console.ReadLine();
             if (student.GetGradesDictionary().ContainsKey(subject))
             {
-                Menu menu = new Menu(addGradeMenu);
-                menu.Draw();
+                Console.WriteLine(featuresOfCorrectGrade);
+                Console.WriteLine("Wpisz ocenę, którą chcesz dodać: ");
 
                 string fullGrade = Console.ReadLine();
                 if(IsGradeOk(fullGrade)){
@@ -96,10 +118,61 @@ namespace przybornik_szkolny_REMAKE
 
             Console.ReadKey();
         }
+        public void HandleGradeChanging()
+        {
+            Console.Clear();
+            Console.Write("Wpisz nazwę przedmiotu, w którym chcesz poprawić ocenę: ");
+            string subject = Console.ReadLine();
+
+            if (student.GetGradesDictionary().ContainsKey(subject))
+            {
+                Console.WriteLine(featuresOfCorrectGrade);
+                Console.WriteLine("Wpisz ocenę, którą chcesz poprawić: ");
+                string oldGrade = Console.ReadLine();
+
+                if (student.GetGradesDictionary()[subject].Contains(oldGrade))
+                {
+                    Console.WriteLine("Wpisz poprawioną ocenę: ");
+                    string newGrade = Console.ReadLine();
+                    if (IsGradeOk(newGrade))
+                    {
+                        student.ChangeGrade(subject, oldGrade, newGrade);
+                        Console.WriteLine("Pomyślnie poprawiono ocenę z " + oldGrade + " na " + newGrade);
+                    }
+                    else Console.Write("Wpisana ocena jest nieprawidłowa! (" + newGrade + ")");
+                }
+                else Console.Write("Podana ocena nie istnieje w dzienniku! (" + oldGrade + ")");
+            }
+            else Console.WriteLine("Taki przedmiot nie istnieje na twojej liście!");
+
+            Console.ReadKey();
+        }
+        public void HandleGradeDeleting()
+        {
+            Console.Clear();
+            Console.Write("Wpisz nazwę przedmiotu, z którego chcesz usunąć ocenę: ");
+            string subject = Console.ReadLine();
+
+            if (student.GetGradesDictionary().ContainsKey(subject))
+            {
+                Console.WriteLine(featuresOfCorrectGrade);
+                Console.WriteLine("Wpisz ocenę, którą chcesz usunąć: ");
+                string gradeToDelete = Console.ReadLine();
+
+                if (student.GetGradesDictionary()[subject].Contains(gradeToDelete))
+                {
+                    student.DeleteGrade(subject, gradeToDelete);
+                    Console.WriteLine("Pomyślnie usunięto ocenę! (" + gradeToDelete + ")");
+                }
+                else Console.Write("Podana ocena nie istnieje w dzienniku! (" + gradeToDelete + ")");
+            } else Console.WriteLine("Taki przedmiot nie istnieje!");
+
+            Console.ReadKey();
+        }
 
         public bool IsGradeOk(string fullGrade)
         {
-            if (student.data.gradingType == Data.GradesType.WithoutPlusAndMinus)
+            if (student.gradeHasPlusAndMinus == false)
             {
                 try
                 {
@@ -109,16 +182,30 @@ namespace przybornik_szkolny_REMAKE
                 }
                 catch(FormatException)
                 {
-                    Console.WriteLine("Wpisana ocena jest nieprawidłowa! (" + fullGrade + ")");
-                    Console.ReadKey();
+                    return false;
                 }
             }
-            else if (student.data.gradingType == Data.GradesType.WithPlusAndMinus)
+            else if (student.gradeHasPlusAndMinus == true)
             {
                 if (Data.gradesWithPlusAndMinus.Contains(fullGrade)) return true;
                 else return false;
             }
             return false;
+        }
+        public float ConvertGradeToFloat(string gradeToConvert)
+        {
+            if (student.plusAndMinusWorth == false) return Int32.Parse(gradeToConvert[0].ToString());
+            else if(student.plusAndMinusWorth == true)
+            {
+                float value = Int32.Parse(gradeToConvert[0].ToString());
+
+                if (gradeToConvert.Contains("+")) value += student.plusValue;
+                else if (gradeToConvert.Contains("-")) value += student.minusValue;
+
+                return value;
+
+            }
+            else return 1;
         }
     }
 }

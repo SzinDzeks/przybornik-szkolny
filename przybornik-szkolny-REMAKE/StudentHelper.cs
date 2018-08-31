@@ -8,14 +8,14 @@ namespace przybornik_szkolny_REMAKE
 {
     class StudentHelper
     {
-        public string GetStudentName()
+        public static string GetStudentName()
         {
             Console.Write("Podaj swoje imie: ");
             string studentName = Console.ReadLine();
             return studentName;
         }
         
-        public string GetStudentSurname()
+        public static string GetStudentSurname()
         {
             Console.Write("Podaj swoje nazwisko: ");
             string studentSurname = Console.ReadLine();
