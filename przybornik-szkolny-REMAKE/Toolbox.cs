@@ -20,7 +20,7 @@ namespace przybornik_szkolny_REMAKE
         void ConstructFeaturesOfCorrectGradeInfo()
         {
             if (student.gradeHasPlusAndMinus == true)
-                featuresOfCorrectGrade = "Prawidłowa ocena to liczba od 1 do 6 opcjonalnie zawierająca po swojej prawej stronie plus bądź minus (np. 5+ lub 4-).\n";
+                featuresOfCorrectGrade = "Prawidłowa ocena to liczba od 1 do 6 opcjonalnie zawierająca po swojej prawej stronie plus bądź minus (np. 5+ lub 4-).";
             else if (student.gradeHasPlusAndMinus == false)
                 featuresOfCorrectGrade = "Prawidłowa ocena to liczba od 1 do 6.";
         }
@@ -80,7 +80,7 @@ namespace przybornik_szkolny_REMAKE
                     Console.Write(grade + ", ");
                 }
                 subjectAverage /= j;
-                if (subjectAverage > 0) Console.Write("Średnia: " + subjectAverage + "\n");
+                if (subjectAverage > 0) Console.Write("Średnia: " + Math.Round(subjectAverage, 2) + "\n");
                 else Console.Write("    Średnia: Brak\n");
 
                 if (subjectAverage > 0)
@@ -92,7 +92,7 @@ namespace przybornik_szkolny_REMAKE
 
             overallAverage /= i;
 
-            Console.WriteLine("\nŚrednia: " + overallAverage);
+            Console.WriteLine("\nŚrednia: " + Math.Round(overallAverage, 2));
             Console.ReadKey();
         }
         public void HandleGradeAdding()
@@ -103,8 +103,9 @@ namespace przybornik_szkolny_REMAKE
             string subject = Console.ReadLine();
             if (student.GetGradesDictionary().ContainsKey(subject))
             {
+                Console.Clear();
                 Console.WriteLine(featuresOfCorrectGrade);
-                Console.WriteLine("Wpisz ocenę, którą chcesz dodać: ");
+                Console.Write("Wpisz ocenę, którą chcesz dodać: ");
 
                 string fullGrade = Console.ReadLine();
                 if(IsGradeOk(fullGrade)){
@@ -112,7 +113,7 @@ namespace przybornik_szkolny_REMAKE
                     Console.WriteLine("Pomyślnie dodano ocenę!");
                 }
                 else
-                    Console.Write("Wpisana ocena jest nieprawidłowa! (" + fullGrade + ")");
+                    Console.WriteLine("Wpisana ocena jest nieprawidłowa! (" + fullGrade + ")");
             }
             else Console.WriteLine("Taki przedmiot nie istnieje na twojej liście!");
 
@@ -126,22 +127,23 @@ namespace przybornik_szkolny_REMAKE
 
             if (student.GetGradesDictionary().ContainsKey(subject))
             {
+                Console.Clear();
                 Console.WriteLine(featuresOfCorrectGrade);
-                Console.WriteLine("Wpisz ocenę, którą chcesz poprawić: ");
+                Console.Write("Wpisz ocenę, którą chcesz poprawić: ");
                 string oldGrade = Console.ReadLine();
 
                 if (student.GetGradesDictionary()[subject].Contains(oldGrade))
                 {
-                    Console.WriteLine("Wpisz poprawioną ocenę: ");
+                    Console.Write("Wpisz poprawioną ocenę: ");
                     string newGrade = Console.ReadLine();
                     if (IsGradeOk(newGrade))
                     {
                         student.ChangeGrade(subject, oldGrade, newGrade);
                         Console.WriteLine("Pomyślnie poprawiono ocenę z " + oldGrade + " na " + newGrade);
                     }
-                    else Console.Write("Wpisana ocena jest nieprawidłowa! (" + newGrade + ")");
+                    else Console.WriteLine("Wpisana ocena jest nieprawidłowa! (" + newGrade + ")");
                 }
-                else Console.Write("Podana ocena nie istnieje w dzienniku! (" + oldGrade + ")");
+                else Console.WriteLine("Podana ocena nie istnieje w dzienniku! (" + oldGrade + ")");
             }
             else Console.WriteLine("Taki przedmiot nie istnieje na twojej liście!");
 
@@ -155,8 +157,9 @@ namespace przybornik_szkolny_REMAKE
 
             if (student.GetGradesDictionary().ContainsKey(subject))
             {
+                Console.Clear();
                 Console.WriteLine(featuresOfCorrectGrade);
-                Console.WriteLine("Wpisz ocenę, którą chcesz usunąć: ");
+                Console.Write("Wpisz ocenę, którą chcesz usunąć: ");
                 string gradeToDelete = Console.ReadLine();
 
                 if (student.GetGradesDictionary()[subject].Contains(gradeToDelete))
